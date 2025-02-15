@@ -3,9 +3,9 @@ from django.http import HttpResponse
 from .models import maps
 
 def index(request):
-    latest_question_list = maps.objects.order_by("-pub_date")[:5]
-    context = {"latest_question_list": latest_question_list}
-    return render(request, "map/index.html", context)
+    latest_question_list = maps.objects.first()
+    output = ", ".join([q.question_text for q in latest_question_list])
+    return HttpResponse(output)
 
 def detail(request, question_id):   # http://localhost:8000/wiki/polls/5/
     return HttpResponse("You're looking at map %s." % question_id)
