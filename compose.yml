@@ -1,0 +1,29 @@
+services:
+  pollsapp:
+    image: pollsapp:latest
+    build: ./app
+    command: python manage.py runserver 0.0.0.0:8004
+    ports:
+      - "8004:8004"
+
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=hello_django
+      - DB_USER=hello_django
+      - DB_PASS=hello_django
+      - DB_PORT=5432
+      - DB_ENGINE=django.db.backends.postgresql
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=hello_django
+      - POSTGRES_PASSWORD=hello_django
+      - POSTGRES_DB=hello_django
+
+volumes:
+  postgres_data:

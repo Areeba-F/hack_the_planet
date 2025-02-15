@@ -1,0 +1,6 @@
+<h1>{{ question.question_text }}</h1>   <!-- Display the question's text -->
+<ul>
+{% for choice in question.multiplechoiceoption_set.all %}
+    <li>{{ choice.choice_text }}</li>   <!-- Display each option's text -->
+{% endfor %}
+</ul>
