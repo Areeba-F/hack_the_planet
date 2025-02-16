@@ -35,27 +35,27 @@ class ReactView(APIView):
 class PromptFormView(APIView):
 
     colour_to_code = {
-        'red': 'R',
-        'green': 'G',
-        'blue': 'B',
-        'yellow': 'Y',
-        'cyan': 'C',
-        'magenta': 'M',
-        'white': 'W',
-        'colourless': 'X',
+        'colourless': 0,
+        'red': 1,
+        'green': 2,
+        'blue': 3,
+        'yellow': 4,
+        'cyan': 5,
+        'magenta': 6,
+        'white': 7,
     }
 
     code_to_colour = {v: k for k, v in colour_to_code.items()}
 
     code_to_array = {
-        'R': [1, 0, 0],
-        'G': [0, 1, 0],
-        'B': [0, 0, 1],
-        'Y': [1, 1, 0],
-        'C': [0, 1, 1],
-        'M': [1, 0, 1],
-        'W': [1, 1, 1],
-        'X': [0, 0, 0],
+        0: [0, 0, 0],
+        1: [1, 0, 0],
+        2: [0, 1, 0],
+        3: [0, 0, 1],
+        4: [1, 1, 0],
+        5: [0, 1, 1],
+        6: [1, 0, 1],
+        7: [1, 1, 1],
     }
 
     def post(self, request):
@@ -78,26 +78,26 @@ class PromptFormView(APIView):
                 print(f'Colour {colour} does not have defined code')
 
         # i know this is hideous reebs im sorry
-        prompt = f'''I have example input and output for the task of creating an N x N map of integers based on a room description. I will then provide the real input (the description). Your task is to create the real map (grid of integers) and return it in between the ``` delimiters. You may add more terrain types if needed - terrain types may be R, G, B, Y, C, M, W, X.
+        prompt = f'''I have example input and output for the task of creating an N x N map of integers based on a room description. I will then provide the real input (the description). Your task is to create the real map (grid of integers) and return it in between the ``` delimiters. You may add more terrain types if needed - allowed terrain types are integers 0-7.
 
 EXAMPLE INPUT: `A room with a river running through it. There are boulders that block the players on either side of the river. There is a bridge that allows passage over the river.`
 The terrain types are:
-- G: Normal ground
-- B: River
-- M: Boulder
+- 0: Normal ground
+- 1: River
+- 2: Boulder
 Map size: 4x4
 
 EXAMPLE OUTPUT:
 ```
-G G G M
-G M G G
-B B W B
-G M G G
+0 0 0 2
+0 2 0 0
+1 1 3 1
+0 2 0 0
 Terrain:
-- G: Normal ground
-- B: River
-- M: Boulder
-- W: Bridge
+- 0: Normal ground
+- 1: River
+- 2: Boulder
+- 3: Bridge
 ```
 
 REAL INPUT: `{prompt_desc}`
@@ -112,51 +112,76 @@ REAL OUTPUT:
 
         # prompt model
         print('Generating response...')
-        # response = client.models.generate_content(
-        #     model="gemini-2.0-flash", contents=prompt
-        # )
-        # text = response.text
-        text = '''
-Okay, I understand the task. I need to create a 7x7 map based on the room description, using the provided terrain types and potentially adding more if necessary.
+        response = client.models.generate_content(
+            model="gemini-2.0-flash", contents=prompt
+        )
+        text = response.text
+        # debug text
+#         text = '''
+# Okay, I understand the task. I need to create a 7x7 map based on the room description, using the provided terrain types and potentially adding more if necessary.
 
-Here's my attempt at creating the map:
+# Here's my attempt at creating the map:
 
-```
-G G G X X X X
-G G G X X X X
-G G G G X X X
-G G G R G X X
-G G G G G G G
-G Y G G G G Y
-Y G G G G G Y
-Terrain:
-- G: Ground
-- R: Chest
-- X: Pit
-- Y: Pillar
-```
-'''
-        print(text)
+# ```
+# G G G X X X X
+# G G G X X X X
+# G G G G X X X
+# G G G R G X X
+# G G G G G G G
+# G Y G G G G Y
+# Y G G G G G Y
+# Terrain:
+# - G: Ground
+# - R: Chest
+# - X: Pit
+# - Y: Pillar
+# ```
+# '''
+        print('RESPONSE:\n', text)
 
-        # parse response
+        success = True
+        parsed_grid = [['X'] * prompt_size] * prompt_size # fill in grid of correct size
+        parsed_terrains = {k: '' for k in self.colour_to_code.keys()}
+
         try:
-            grid = re.search(r'```([^`]*)Terrain:', text).group().strip()
-            terrains = re.search(r'Terrain:([^`]*)```', text).group().strip()
+            # parse grid
+            grid = re.search(r'```([^`]*)Terrain:', text).group(1).strip()
+            print('GRID:\n', grid)
 
-            grid = [col.split() for col in grid.split('\n')]
+            grid = [col.strip().split() for col in grid.split('\n')]
 
-            print(grid)
-            print(terrains)
+            for x in range(prompt_size):
+                for y in range(prompt_size):
+                    if x >= len(grid) or y >= len(grid[x]):
+                        continue
+                    if grid[x][y] not in self.code_to_array.keys():
+                        continue
+                    parsed_grid[x][y] = self.code_to_array[grid[x][y]]
 
-            for x in range(len(grid)):
-                for y in range(len(grid[0])):
-                    grid[x][y] = self.code_to_array(grid[x][y])
+            print('PARSED GRID:\n', grid)
 
-            print(grid)
+            # parse terrains
+            terrains = re.search(r'Terrain:([^`]*)```', text).group(1).strip()
+            terrains = re.findall(r'- ([0-9]): (.+)', terrains)
+            
+            print('TERRAINS:\n', terrains)
+            for (code, desc) in terrains:
+                code_int = int(code)
+                if code_int not in self.code_to_colour.keys():
+                        continue
+                parsed_terrains[self.code_to_colour[code_int]] = desc.strip()
 
-            response = grid
-        except:
-            print(':(((((')
+            print('PARSED TERRAINS:\n', parsed_terrains)
+        
+        except Exception as e:
+            print('PARSING ERROR:', Exception, e)
+            success = False
 
+        # send both grid and terrains back
+        response = {
+            'success': success, # signal to specify there was an error
+            'grid': parsed_grid,
+            'terrains': parsed_terrains,
+        }
 
         return Response(response)
