@@ -3,7 +3,8 @@
 import React from 'react';
 import axios from 'axios';
 
-import Grid from "./Components/Grid";
+import Grid from "./Components/Grid"; 
+
 
 class App extends React.Component {
 

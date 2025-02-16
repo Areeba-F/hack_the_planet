@@ -6,23 +6,29 @@ import Item from '@mui/material/Grid';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
+import NumericInput from 'react-numeric-input';
+import styles from "./PromptForm.css"
 
 class PromptForm extends React.Component {
   state = {
     prompt: "",
+    size: 7,
   };
   
-  handleChange = (event) => {
+  handleChangePromptDescription = (event) => {
     this.setState({ prompt: event.target.value });
-    console.log(this.state);
+  };
+
+  handleChangeBoardSize = (value) => {
+    this.setState({ size: value });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     axios
         .post('http://localhost:8000/maps/submit_prompt_form/', {
-            prompt: this.state.prompt
+            prompt: this.state.prompt,
+            size: this.state.size
           }
         )
         .then((res) => {
@@ -31,20 +37,38 @@ class PromptForm extends React.Component {
         });
   };
 
+  numericFormat = (stringValue) => {
+    return stringValue.replace(/\D/, "");
+  };
+
   render() {
     return(
       <div id='prompt-form'>
         <form onSubmit={this.handleSubmit}>
-          <br/>
-          <br/>
 
-          <div>
+          <div style={{marginBottom: 20, marginTop: 50}}>
             <Grid container spacing={2}>
-              <TextField fullWidth
-                label="Room Description" id="prompt-input"
-                onchange={this.handleChange}
-                multiline={true}
-              />
+              <Grid item xs={12}>
+                <TextField fullWidth
+                  label="Room Description" id="prompt-input"
+                  onChange={this.handleChangePromptDescription}
+                  multiline={true}
+                />
+              </Grid>
+
+              <Grid item xs={2}>
+                <label for='size-input'>Map Size</label>
+              </Grid>
+              <Grid item xs={10}>
+                <NumericInput
+                  name='size-input'
+                  min={7} max={21}
+                  defaultValue={7}
+                  onChange={this.handleChangeBoardSize}
+                  format={this.numericFormat}
+                  className={'size-input'}
+                />
+              </Grid>  
 
               <TerrainInput colour={'red'}/>
               <TerrainInput colour={'green'}/>
@@ -56,11 +80,14 @@ class PromptForm extends React.Component {
               <TerrainInput colour={'colourless'}/>
             </Grid>
           </div>
-        
-          <Button variant="contained"
-            type='submit'>
-              Generate Map
-          </Button>
+
+          <Grid item xs={12}>
+            <Button variant="contained"
+              type='submit'>
+                Generate Map
+            </Button>
+          </Grid>
+
         </form>
 
 
