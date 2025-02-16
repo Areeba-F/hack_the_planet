@@ -13,8 +13,13 @@ const Grid = ({ data }) => {
       }}>
       
       {data.flat().map((rgb, index) => {
+        // convert from 1 to 255 to display colour
+        const r = rgb[0] * 255;
+        const g = rgb[1] * 255;
+        const b = rgb[2] * 255;
+
         // get colour from [rbg[0], rbg[1], rbg[2]]
-        const backgroundColor = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`;
+        const backgroundColor = `rgb(${r}, ${g}, ${b})`;
 
         // for each cell in a row
         return (
