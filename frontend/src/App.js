@@ -11,7 +11,7 @@ class App extends React.Component {
 
     componentDidMount() {
 
-        let data ;
+        let data;
 
         axios.get('http://localhost:8000/wel/')
         .then(res => {
