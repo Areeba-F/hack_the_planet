@@ -8,8 +8,8 @@ import PromptForm from './PromptForm';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <App /> */}
     <PromptForm />
+    <App />
   </React.StrictMode>
 );
 
