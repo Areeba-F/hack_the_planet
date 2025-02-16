@@ -133,3 +133,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# environment vars
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
+GOOGLE_API_KEY = env("GOOGLE_API_KEY")

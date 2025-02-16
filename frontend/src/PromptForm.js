@@ -13,6 +13,16 @@ class PromptForm extends React.Component {
   state = {
     prompt: "",
     size: 7,
+    terrains: {
+      'red': '',
+      'green': '',
+      'blue':  '',
+      'yellow': '',
+      'cyan' : '',
+      'magenta' : '',
+      'white': '',
+      'colourless': ''
+    }
   };
   
   handleChangePromptDescription = (event) => {
@@ -23,13 +33,19 @@ class PromptForm extends React.Component {
     this.setState({ size: value });
   };
 
+  handleChangeTerrain = (colour, event) => {
+    if (this.state.terrains[colour] !== undefined) {
+      // update state for colour that was changed
+      this.state.terrains[colour] = event.target.value;
+    } else {
+      console.log("colour", colour, "not present in terrains dict");
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
     axios
-        .post('http://localhost:8000/maps/submit_prompt_form/', {
-            prompt: this.state.prompt,
-            size: this.state.size
-          }
+        .post('http://localhost:8000/maps/submit_prompt_form/', this.state
         )
         .then((res) => {
             console.log(res);
@@ -70,14 +86,14 @@ class PromptForm extends React.Component {
                 />
               </Grid>  
 
-              <TerrainInput colour={'red'}/>
-              <TerrainInput colour={'green'}/>
-              <TerrainInput colour={'blue'}/>
-              <TerrainInput colour={'yellow'}/>
-              <TerrainInput colour={'cyan'}/>
-              <TerrainInput colour={'magenta'}/>
-              <TerrainInput colour={'white'}/>
-              <TerrainInput colour={'colourless'}/>
+              <TerrainInput colour={'red'} onChange={this.handleChangeTerrain}/>
+              <TerrainInput colour={'green'} onChange={this.handleChangeTerrain}/>
+              <TerrainInput colour={'blue'} onChange={this.handleChangeTerrain}/>
+              <TerrainInput colour={'yellow'} onChange={this.handleChangeTerrain}/>
+              <TerrainInput colour={'cyan'} onChange={this.handleChangeTerrain}/>
+              <TerrainInput colour={'magenta'} onChange={this.handleChangeTerrain}/>
+              <TerrainInput colour={'white'} onChange={this.handleChangeTerrain}/>
+              <TerrainInput colour={'colourless'} onChange={this.handleChangeTerrain}/>
             </Grid>
           </div>
 
