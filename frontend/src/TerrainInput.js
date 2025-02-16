@@ -6,11 +6,14 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 
-
 class TerrainInput extends React.Component {
+  handleChange = (value) => {
+    this.props.onChange(this.props.colour, value);
+  };
+
   render() {
 
-    const { colour } = this.props;
+    const colour = this.props.colour;
     var name = 'terrain-'.concat(colour);
 
     return(
@@ -25,6 +28,7 @@ class TerrainInput extends React.Component {
                 label={colour.concat(' terrain')}
                 multiline={false}
                 fullWidth={true}
+                onChange={this.handleChange}
             />
         </Grid>
         </>
