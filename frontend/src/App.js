@@ -49,6 +49,19 @@ class App extends React.Component {
         this.setState({ selectedColor: color });
     };
 
+    listToString = (grid) => {
+        return grid.map(layer => layer.map(row => `[${row.join(',')}]`).join(',')).join(',');
+    };
+
+    // save the grid
+    saveGrid = () => {
+        console.log("Save button clicked!"); 
+        const gridString = this.listToString(this.state.gridData);
+        axios.post('http://localhost:8000/wel/', { grid: gridString })
+            .then(() => alert("Grid saved successfully!"))
+            .catch(err => console.error("Error saving grid:", err));
+    };
+
   render() {
     const colorOptions = [
       {color: [0, 0, 0], name: "Off" },
@@ -62,40 +75,48 @@ class App extends React.Component {
   ];
     return(
       <div>
-          aaaa
-            {this.state.details.map((detail, id) =>  (
-            <div key={id}>
-            <div >
-                <div >
-                    <h1>{detail.detail} </h1>
-                    <footer >--- by
-                    <cite title="Source Title">
-                    {detail.name}</cite>
-                    </footer>
-                </div>
-            </div>
-            </div>
-            )
-        )}
 
-      <h3>Select colour to edit map</h3>
-      <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+      <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
+      <div style={{ display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
           {colorOptions.map(({ color, name }) => (
               <button
                   key={name}
                   onClick={() => this.handleColorSelect(color)}
                   style={{
-                      width: "20px",
-                      height: "15px",
+                      width: "40px",
+                      height: "25px",
+                      border: "1px solid #333",
                       backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255})`,
-                      border: this.state.selectedColor === color ? "3px solid black" : "1px solid gray",
-                      cursor: "pointer",
+                      transition: "border 0.3s ease, transform 0.2s ease",
+                      cursor: "pointer",                      
                   }}
+                  onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
+                  onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
               ></button>
           ))}
           </div>
-      <h3>Map</h3>
+      <h3 style={{ textAlign: "center" }}>Map</h3>
       <Grid data={this.state.gridData} onCellClick={this.handleCellClick} />
+
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <button
+                onClick={this.saveGrid}
+                style={{
+                    padding: "10px 20px",
+                    fontSize: "16px",
+                    cursor: "pointer",
+                    backgroundColor: "rgb(0,0,0)",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    transition: "border 0.3s ease, transform 0.2s ease",
+                }}
+                onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+            >
+                Save Grid
+            </button>
+        </div>
       </div>
       
       );

@@ -21,16 +21,19 @@ class ReactView(APIView):
     serializer_class = ReactSerializer
 
     def get(self, request):
-        detail = [ {"name": detail.name,"detail": detail.detail} 
+        detail = [ {"grid": detail.grid} 
         for detail in React.objects.all()]
         return Response(detail)
 
     def post(self, request):
 
-        serializer = ReactSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
+        grid_string = request.data.get('grid')
+        serializer = ReactSerializer(data={'grid': grid_string})  
+        if serializer.is_valid():
             serializer.save()
-            return  Response(serializer.data)
+            return Response({"message": "Grid saved successfully"}, status=201)
+        return Response(serializer.errors, status=400)
+
 
 class PromptFormView(APIView):
 
