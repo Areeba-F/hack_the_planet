@@ -3,8 +3,11 @@
 import React, { useContext } from 'react';
 import axios from 'axios';
 
-import Grid from "./Components/Grid";
-import { MapContext } from './MapContext';
+import Grid from "../Components/Grid";
+import { MapContext } from '../MapContext';
+
+import { Navigate } from 'react-router-dom';
+
 
 class MapEditor extends React.Component {
 
@@ -16,6 +19,7 @@ class MapEditor extends React.Component {
         selectedColor: [1, 1, 1],
         savedGrids: [], 
         showDataBox: false,
+        navigateToCreation: false
     }
 
     componentDidMount() {
@@ -26,6 +30,7 @@ class MapEditor extends React.Component {
         .catch((err) => {
             console.error("Error fetching saved grids:", err);
         });
+        
     }
     
     // create a new grid with the changed colour at the index that was clicked on 
@@ -78,8 +83,7 @@ class MapEditor extends React.Component {
         //console.log("Save button clicked!"); 
         const gridString = this.listToString(this.context.grid);
         axios.post('http://localhost:8000/wel/', { grid: gridString })
-            .then(() => {alert("Grid saved successfully!");
-                this.fetchSavedGrids();})
+            .then(() => {this.fetchSavedGrids();})
             .catch(err => console.error("Error saving grid:", err));
     };
 
@@ -96,10 +100,11 @@ class MapEditor extends React.Component {
 
     // get old grids
     loadGrid = (gridData) => {
-        //console.log("grid before", gridData); 
+        console.log("grid before", gridData); 
         const loadedGrid = this.stringToList(gridData);
-        //console.log("grid after", loadedGrid);
-        this.setState({ gridData: loadedGrid });
+        console.log("grid after", loadedGrid);
+        //this.setState({ gridData: loadedGrid });
+        this.context.setGrid(loadedGrid);
     };
 
     // display or hide the arduino box from button
@@ -107,6 +112,11 @@ class MapEditor extends React.Component {
         this.setState(prevState => ({
             showDataBox: !prevState.showDataBox
         }));
+    }
+
+    // send back to map navigation page
+    NavToCreationPage = () => {
+        this.setState({ navigateToCreation: true });
     }
 
   render() {
@@ -122,6 +132,10 @@ class MapEditor extends React.Component {
       {color: [1, 0, 1], name: "Magenta" },
       {color: [1, 1, 1], name: "White" },
   ];
+    // navigate to editor page
+    if (this.state.navigateToCreation) {
+        return <Navigate to="/" />;
+        }
     return(
     <div>
     
@@ -208,6 +222,7 @@ class MapEditor extends React.Component {
             style={{
                 padding: "10px 20px",
                 fontSize: "16px",
+                margin: "10px",
                 cursor: "pointer",
                 backgroundColor: "rgb(0,0,0)",
                 color: "white",
@@ -219,6 +234,25 @@ class MapEditor extends React.Component {
             onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
         >
             Output to Arduino
+        </button>
+
+        <button
+            onClick={this.NavToCreationPage}
+            style={{
+                padding: "10px 20px",
+                fontSize: "16px",
+                margin: "10px",
+                cursor: "pointer",
+                backgroundColor: "rgb(0,0,0)",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                transition: "border 0.3s ease, transform 0.2s ease",
+            }}
+            onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+            onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+        >
+            Back to Map Creation Page
         </button>
 
         {this.state.showDataBox && (

@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import TerrainInput from './TerrainInput';
+import TerrainInput from '../TerrainInput';
 import Grid from '@mui/material/Grid';
 import Item from '@mui/material/Grid';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -8,7 +8,9 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import NumericInput from 'react-numeric-input';
 import styles from "./PromptForm.css"
-import { MapContext } from './MapContext';
+import { MapContext } from '../MapContext';
+
+import { Navigate } from 'react-router-dom';
 
 class PromptForm extends React.Component {
   static contextType = MapContext;
@@ -25,7 +27,8 @@ class PromptForm extends React.Component {
       'magenta' : '',
       'white': '',
       'colourless': ''
-    }
+    },
+    navigateToEditor: false
   };
   
   handleChangePromptDescription = (event) => {
@@ -61,6 +64,7 @@ class PromptForm extends React.Component {
             if (res.data.success) {
               this.context.setGrid(res.data.grid); // set grid to be used by editor
               console.log('Set new grid in app context.')
+              this.setState({ navigateToEditor: true }); // When clicked, change to editor page
             } else {
               alert('Map generation failed :( Try revising your description and terrain types.')
             }
@@ -73,6 +77,10 @@ class PromptForm extends React.Component {
   };
 
   render() {
+    // navigate to editor page
+    if (this.state.navigateToEditor) {
+      return <Navigate to="/editor" />;
+    }
     return(
       <div id='prompt-form'>
         <form onSubmit={this.handleSubmit}>

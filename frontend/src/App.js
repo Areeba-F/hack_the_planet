@@ -1,7 +1,8 @@
 import React from 'react';
 import { MapContext } from './MapContext';
-import PromptForm from './PromptForm';
-import MapEditor from './MapEditor';
+import PromptForm from './Pages/PromptForm';
+import MapEditor from './Pages/MapEditor';
+import {Routes, Route} from 'react-router-dom'
 
 class App extends React.Component {
 
@@ -27,8 +28,10 @@ class App extends React.Component {
     return(
         <>
         <MapContext.Provider value={this.state}>
-            <PromptForm />
-            <MapEditor />
+            <Routes>
+                <Route path= "" element ={<PromptForm/>}/>
+                <Route path= "/editor" element ={<MapEditor/>}/>
+            </Routes>
         </MapContext.Provider>  
     </>
       );
