@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from . models import *
 from rest_framework.response import Response
 from . serializer import *
+import json
 # Create your views here.
 
 class ReactView(APIView):
@@ -20,3 +21,13 @@ class ReactView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return  Response(serializer.data)
+
+class PromptFormView(APIView):
+    def get(self, request):
+        print("???")
+        return Response()
+
+    def post(self, request):
+        data = json.loads(request.body.decode('utf-8'))
+        print(data)
+        return Response("test")
