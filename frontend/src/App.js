@@ -3,10 +3,18 @@
 import React from 'react';
 import axios from 'axios';
 
+import Grid from "./Components/Grid";
+
 class App extends React.Component {
 
     state = {
         details : [],
+        gridData : [
+          // tester map
+          [[255, 0, 0], [0, 255, 0], [0, 0, 255]], 
+          [[255, 255, 0], [0, 255, 255], [255, 0, 255]], 
+          [[255, 255, 255], [0, 0, 0], [255, 255, 255]], 
+        ],
     }
 
     componentDidMount() {
@@ -21,7 +29,8 @@ class App extends React.Component {
             });
         })
         .catch(err => {})
-    }
+
+      }
 
   render() {
     return(
@@ -41,7 +50,10 @@ class App extends React.Component {
             </div>
             )
         )}
+
+      <Grid data={this.state.gridData} />
       </div>
+      
       );
   }
 }
