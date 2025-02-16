@@ -143,28 +143,37 @@ REAL OUTPUT:
         print('RESPONSE:\n', text)
 
         success = True
-        parsed_grid = [['X'] * prompt_size] * prompt_size # fill in grid of correct size
+        parsed_grid = [[[1, 1, 1] for i in range(prompt_size)] for j in range(prompt_size)] # fill in grid of correct size
         parsed_terrains = {k: '' for k in self.colour_to_code.keys()}
+        print("AAA:\n",  parsed_grid)
 
         try:
             # parse grid
-            grid = re.search(r'```([^`]*)Terrain:', text).group(1).strip()
+            grid = re.search(r'```([^`]*)```', text).group(1).strip()
+            grid = [col.strip().split() for col in grid.split('\n')]
             print('GRID:\n', grid)
 
-            grid = [col.strip().split() for col in grid.split('\n')]
-
-            for x in range(prompt_size):
-                for y in range(prompt_size):
+            for x in range(len(parsed_grid)):
+                for y in range(len(parsed_grid[x])):
+                    print(grid[x][y])
+                    # checks
                     if x >= len(grid) or y >= len(grid[x]):
+                        print('a')
                         continue
-                    if grid[x][y] not in self.code_to_array.keys():
+                    if not(grid[x][y].isdigit()):
+                        print('b')
                         continue
-                    parsed_grid[x][y] = self.code_to_array[grid[x][y]]
+                    if int(grid[x][y]) not in self.code_to_array.keys(): 
+                        print('c')
+                        continue 
+                    # update parsed grid with colour
+                    print(f"> {x},{y}", self.code_to_array[int(grid[x][y])])
+                    parsed_grid[x][y] = self.code_to_array[int(grid[x][y])]
 
-            print('PARSED GRID:\n', grid)
+                    print('PARSED GRID:\n', parsed_grid)
 
             # parse terrains
-            terrains = re.search(r'Terrain:([^`]*)```', text).group(1).strip()
+            terrains = re.search(r'(- [0-9]: [^\n]+\n)', text).group(1).strip()
             terrains = re.findall(r'- ([0-9]): (.+)', terrains)
             
             print('TERRAINS:\n', terrains)

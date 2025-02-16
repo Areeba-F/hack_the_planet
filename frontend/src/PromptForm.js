@@ -8,12 +8,15 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import NumericInput from 'react-numeric-input';
 import styles from "./PromptForm.css"
+import { MapContext } from './MapContext';
 
 class PromptForm extends React.Component {
+  static contextType = MapContext;
+
   state = {
     prompt: "",
-    size: 7,
-    terrains: {
+    prompt_size: 7,
+    prompt_terrains: {
       'red': '',
       'green': '',
       'blue':  '',
@@ -27,16 +30,17 @@ class PromptForm extends React.Component {
   
   handleChangePromptDescription = (event) => {
     this.setState({ prompt: event.target.value });
+    
   };
 
   handleChangeBoardSize = (value) => {
-    this.setState({ size: value });
+    this.setState({ prompt_size: value });
   };
 
   handleChangeTerrain = (colour, event) => {
-    if (this.state.terrains[colour] !== undefined) {
+    if (this.state.prompt_terrains[colour] !== undefined) {
       // update state for colour that was changed
-      this.state.terrains[colour] = event.target.value;
+      this.state.prompt_terrains[colour] = event.target.value;
     } else {
       console.log("colour", colour, "not present in terrains dict");
     }
@@ -45,11 +49,22 @@ class PromptForm extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     axios
-        .post('http://localhost:8000/maps/submit_prompt_form/', this.state
+        .post('http://localhost:8000/maps/submit_prompt_form/', {
+          prompt: this.state.prompt,
+          size: this.state.prompt_size,
+          terrains: this.state.prompt_terrains
+        }
         )
         .then((res) => {
-            console.log(res);
             console.log(res.data);
+
+            if (res.data.success) {
+              this.context.setGrid(res.data.grid); // set grid to be used by editor
+              console.log('Set new grid in app context.')
+            } else {
+              alert('Map generation failed :( Try revising your description and terrain types.')
+            }
+            
         });
   };
 
