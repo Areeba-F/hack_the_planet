@@ -16,22 +16,19 @@ class App extends React.Component {
           [[1, 1, 1], [0, 0, 0], [1, 1, 1]], 
         ],
         selectedColor: [1, 1, 1],
+        savedGrids: [], 
     }
 
     componentDidMount() {
 
-        let data;
-
         axios.get('http://localhost:8000/wel/')
-        .then(res => {
-            data = res.data;
-            this.setState({
-                details : data    
-            });
+        .then((res) => {
+            this.setState({ savedGrids: res.data });
         })
-        .catch(err => {})
-
-      }
+        .catch((err) => {
+            console.error("Error fetching saved grids:", err);
+        });
+    }
     
     // create a new grid with the changed colour at the index that was clicked on 
     handleCellClick = (rowIndex, colIndex) => {
@@ -49,8 +46,31 @@ class App extends React.Component {
     };
 
     listToString = (grid) => {
-        return grid.map(layer => layer.map(row => `[${row.join(',')}]`).join(',')).join(',');
+        return `[${grid
+            .map(layer => 
+                `[${layer
+                    .map(row => `[${row.join(',')}]`)
+                    .join(',')}]`
+            )
+            .join(',')}]`;
     };
+
+    stringToList = (savedGrids) => {
+        return savedGrids
+            .slice(3, -3) 
+            .split(']],[[')  
+            .map((layer) => 
+                layer
+                .split('],[')         
+                .map((row) => 
+                    row
+                    .split(',')       
+                    .map(Number)      
+                )
+            )
+            ;
+      };
+    
 
     // save the grid
     saveGrid = () => {
@@ -60,6 +80,14 @@ class App extends React.Component {
             .then(() => alert("Grid saved successfully!"))
             .catch(err => console.error("Error saving grid:", err));
     };
+
+    // get old grids
+    loadGrid = (gridData) => {
+        //console.log("grid before", gridData); 
+        const loadedGrid = this.stringToList(gridData);
+        //console.log("grid after", loadedGrid);
+        this.setState({ gridData: loadedGrid });
+      };
 
   render() {
     const colorOptions = [
@@ -73,28 +101,60 @@ class App extends React.Component {
       {color: [1, 1, 1], name: "White" },
   ];
     return(
-      <div>
+    <div>
 
-      <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
-      <div style={{ display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
-          {colorOptions.map(({ color, name }) => (
-              <button
-                  key={name}
-                  onClick={() => this.handleColorSelect(color)}
-                  style={{
-                      width: "40px",
-                      height: "25px",
-                      border: "1px solid #333",
-                      backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255})`,
-                      transition: "border 0.3s ease, transform 0.2s ease",
-                      cursor: "pointer",                      
-                  }}
-                  onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
-                  onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-              ></button>
-          ))}
-          </div>
+    <h4>Saved Grids</h4>
+        <ul>
+        {this.state.savedGrids.map((grid, index) => (
+            <li key={index} onClick={() => this.loadGrid(grid.grid)}
+            style={{
+                transition: "border 0.3s ease, transform 0.2s ease",
+                cursor: "pointer",                      
+            }}
+            onMouseEnter={(e) => (e.target.style.color = "rgb(199, 87, 199)")}
+            onMouseLeave={(e) => (e.target.style.color = "rgb(0,0,0")}
+            >
+            {`Grid ${index + 1}`}
+            </li>
+        ))}
+        </ul>
+
+    <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
+    <div style={{ display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
+        {colorOptions.map(({ color, name }) => (
+            <button
+                key={name}
+                onClick={() => this.handleColorSelect(color)}
+                style={{
+                    width: "40px",
+                    height: "25px",
+                    border: "1px solid #333",
+                    backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255})`,
+                    transition: "border 0.3s ease, transform 0.2s ease",
+                    cursor: "pointer",                      
+                }}
+                onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
+                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+            ></button>
+        ))}
+        </div>
       <h3 style={{ textAlign: "center" }}>Map</h3>
+
+      {/* Testing for correct grid layour
+      
+      <div>
+      {this.state.gridData.map((layer, layerIndex) => (
+        <div key={layerIndex}>
+          <h3>Layer {layerIndex + 1}</h3>
+          {layer.map((row, rowIndex) => (
+            <div key={rowIndex}>
+              Row {rowIndex + 1}: {row.join(', ')}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div> */}
+
       <Grid data={this.state.gridData} onCellClick={this.handleCellClick} />
 
       <div style={{ textAlign: "center", marginTop: "20px" }}>
