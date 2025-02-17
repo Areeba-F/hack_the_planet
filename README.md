@@ -5,14 +5,14 @@ Everyone in our group enjoys TTRPGs (tabletop roleplaying games), the most famou
 
 ## What it does
 There are 4 main components:
-* The board: A board on which player tokens can be placed and moved around. Each square on the board lights up in one of 8 possible colours. The 7x7 map displayed can be interactively scrolled with a builtin joystick to move the map through a much larger area.
+* The board: A board on which player tokens can be placed and moved around. Each square on the board lights up in one of 8 possible colours. The 7x7 map displayed can be interactively scrolled with the joysticks on the attached controller to move the map through a much larger area.
 * The web interface: An interface that generates maps to be used with the board. The gamemaster can paste in a description of a room, and we use an LLM to generate a map with corresponding terrain types. The gamemaster can make their own tweaks with our editing interface, and then the map is uploaded to the board!
 
 ## How we built it
 * The board: We designed the board and laser-cut it from clear acrylic at the Elko Engineering Garage.
 * The LED grid: We designed a circuit that allowed individual colour control for each of the 49 RGB LEDs in the grid. The grid is controlled by an Arduino Mega.
 * The web interface: We used a Django backend with a ReactJS frontend.
-* The querying: We designed a system to prompt Google Gemini such that we could provide an example room description with supplementary information about tile colours and generate a new room map.
+* The map generation: We designed a system to prompt Google Gemini such that we could provide an example room description with supplementary information about tile colours and generate a new room map.
 
 ## Challenges we ran into
 * Soldering! Constructing and soldering the LED grid together took almost 2 days...
