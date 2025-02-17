@@ -2,7 +2,8 @@
   float: left;
   margin: 20px;
   
-  color: rgb(223, 179, 93)
+  color: rgb(223, 179, 93);
+  border-right: 2px solid rgb(223, 179, 93);
 }
 
 .saved-grids h4 {
@@ -14,4 +15,8 @@
 
 .display-grid {
   border-radius: 80px;
+}
+
+h3 {
+  font-size: 2rem;
 }

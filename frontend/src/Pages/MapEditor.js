@@ -197,48 +197,9 @@ class MapEditor extends React.Component {
                 ))}
             </ul>
         </div>
-        {/* select the colour for editing the map */}
-        <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
-        <div className= 'colour-selector' style={{ display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
-            {colorOptions.map(({ color, name }) => (
-                <button
-                    key={name}
-                    onClick={() => this.handleColorSelect(color)}
-                    style={{
-                        width: "40px",
-                        height: "25px",
-                        border: "1px solid #333",
-                        backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255})`,
-                        transition: "border 0.3s ease, transform 0.2s ease",
-                        cursor: "pointer",                      
-                    }}
-                    onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
-                    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-                ></button>
-            ))}
-            </div>
-
-        {/* Testing for correct grid layour
-        
-        <div>
-        {this.state.gridData.map((layer, layerIndex) => (
-            <div key={layerIndex}>
-            <h3>Layer {layerIndex + 1}</h3>
-            {layer.map((row, rowIndex) => (
-                <div key={rowIndex}>
-                Row {rowIndex + 1}: {row.join(', ')}
-                </div>
-            ))}
-            </div>
-        ))}
-        </div> */}
-        <h3 style={{ textAlign: "center" }}>Map</h3>
-
-        {/* main grid element */}
-        <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
 
         {/* buttons for saving the grid and showing arduino code */}
-        <div className= 'button-div' style={{ justifyContent: "center", textAlign: "center", marginTop: "20px" }}>
+        <div className= 'button-div' style={{ textAlign: "center", marginTop: "20px" }}>
             <button
                 onClick={this.saveGrid}
                 style={{
@@ -317,6 +278,46 @@ class MapEditor extends React.Component {
             )}
             
         </div>
+        {/* select the colour for editing the map */}
+        <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
+        <div className= 'colour-selector' style={{ display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
+            {colorOptions.map(({ color, name }) => (
+                <button
+                    key={name}
+                    onClick={() => this.handleColorSelect(color)}
+                    style={{
+                        width: "40px",
+                        height: "25px",
+                        border: "1px solid #333",
+                        backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255})`,
+                        transition: "border 0.3s ease, transform 0.2s ease",
+                        cursor: "pointer",                      
+                    }}
+                    onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
+                    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                ></button>
+            ))}
+            </div>
+
+        {/* Testing for correct grid layour
+        
+        <div>
+        {this.state.gridData.map((layer, layerIndex) => (
+            <div key={layerIndex}>
+            <h3>Layer {layerIndex + 1}</h3>
+            {layer.map((row, rowIndex) => (
+                <div key={rowIndex}>
+                Row {rowIndex + 1}: {row.join(', ')}
+                </div>
+            ))}
+            </div>
+        ))}
+        </div> */}
+        <h3 style={{ textAlign: "center" }}>Map</h3>
+
+        {/* main grid element */}
+        <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
+        
     </div>
       
       );
