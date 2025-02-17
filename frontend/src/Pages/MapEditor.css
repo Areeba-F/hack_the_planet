@@ -1,0 +1,17 @@
+.saved-grids {
+  float: left;
+  margin: 20px;
+  
+  color: rgb(223, 179, 93)
+}
+
+.saved-grids h4 {
+  float: left;
+  margin: 10px;
+  color: rgb(223, 179, 93);
+  font-size: 2rem;
+}
+
+.display-grid {
+  border-radius: 80px;
+}

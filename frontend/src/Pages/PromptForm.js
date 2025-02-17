@@ -82,54 +82,85 @@ class PromptForm extends React.Component {
       return <Navigate to="/editor" />;
     }
     return(
-      <div id='prompt-form'>
-        <form onSubmit={this.handleSubmit}>
+      <div id='info-text'>
 
-          <div style={{marginBottom: 20, marginTop: 50}}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField fullWidth
-                  label="Room Description" id="prompt-input"
-                  onChange={this.handleChangePromptDescription}
-                  multiline={true}
-                />
+        <div id="info-side">
+          <p style={{ fontSize: "1.4rem", fontWeight: "bold", color: "rgb(225, 179, 137)" }}>
+            Welcome to the TTRPG Battlemap Generator!
+          </p>
+          <p style={{ fontSize: "1.2rem", fontWeight: "bold", color: "rgb(225, 179, 137)" }}>
+            Here you can add a description of the map you want, its size, and any colours you want to see in the legend.
+          </p>
+        </div>
+
+        <div id='prompt-form'>
+          <form onSubmit={this.handleSubmit}>
+
+            <div>
+              <Grid container spacing={2}>
+
+                <Grid item xs={12}>
+                  <TextField fullWidth
+                    label="Room Description" id="prompt-input"
+                    onChange={this.handleChangePromptDescription}
+                    multiline={true}
+
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                          color: "rgb(225, 179, 137)",
+                          fontFamily: "initial",
+                          fontWeight: "bold",
+                          "& .MuiOutlinedInput-notchedOutline": {
+                              borderColor: "rgb(225, 179, 137)",
+                              borderWidth: "1px",
+                          },
+                      },
+                      
+                      "& .MuiInputLabel-outlined": {
+                          color: "rgb(225, 179, 137)",
+                          fontFamily: "initial",
+                          fontWeight: "bold",
+                      },
+                    }}
+                  />
+                </Grid>
+
+                <Grid item xs={2}>
+                  <label for='size-input'>Map Size</label>
+                </Grid>
+                <Grid item xs={10}>
+                  <NumericInput
+                    name='size-input'
+                    min={7} max={21}
+                    defaultValue={7}
+                    onChange={this.handleChangeBoardSize}
+                    format={this.numericFormat}
+                    className={'size-input'}
+                  />
+                </Grid>  
+
+                <TerrainInput colour={'red'} onChange={this.handleChangeTerrain}/>
+                <TerrainInput colour={'green'} onChange={this.handleChangeTerrain}/>
+                <TerrainInput colour={'blue'} onChange={this.handleChangeTerrain}/>
+                <TerrainInput colour={'yellow'} onChange={this.handleChangeTerrain}/>
+                <TerrainInput colour={'cyan'} onChange={this.handleChangeTerrain}/>
+                <TerrainInput colour={'magenta'} onChange={this.handleChangeTerrain}/>
+                <TerrainInput colour={'white'} onChange={this.handleChangeTerrain}/>
+                <TerrainInput colour={'colourless'} onChange={this.handleChangeTerrain}/>
               </Grid>
+            </div>
 
-              <Grid item xs={2}>
-                <label for='size-input'>Map Size</label>
-              </Grid>
-              <Grid item xs={10}>
-                <NumericInput
-                  name='size-input'
-                  min={7} max={21}
-                  defaultValue={7}
-                  onChange={this.handleChangeBoardSize}
-                  format={this.numericFormat}
-                  className={'size-input'}
-                />
-              </Grid>  
-
-              <TerrainInput colour={'red'} onChange={this.handleChangeTerrain}/>
-              <TerrainInput colour={'green'} onChange={this.handleChangeTerrain}/>
-              <TerrainInput colour={'blue'} onChange={this.handleChangeTerrain}/>
-              <TerrainInput colour={'yellow'} onChange={this.handleChangeTerrain}/>
-              <TerrainInput colour={'cyan'} onChange={this.handleChangeTerrain}/>
-              <TerrainInput colour={'magenta'} onChange={this.handleChangeTerrain}/>
-              <TerrainInput colour={'white'} onChange={this.handleChangeTerrain}/>
-              <TerrainInput colour={'colourless'} onChange={this.handleChangeTerrain}/>
+            <Grid item xs={12}>
+              <Button
+                type='submit'>
+                  Generate Map
+              </Button>
             </Grid>
-          </div>
 
-          <Grid item xs={12}>
-            <Button variant="contained"
-              type='submit'>
-                Generate Map
-            </Button>
-          </Grid>
-
-        </form>
+          </form>
 
 
+        </div>
       </div>
       );
     }

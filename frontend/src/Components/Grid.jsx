@@ -23,6 +23,9 @@ const Grid = ({ data, onCellClick }) => {
       justifyContent="center"
       alignItems="center"
       p={2}
+      style= {{
+        background: "center no-repeat url('https://purepng.com/public/uploads/large/purepng.com-scrollvintagepaperobjectoldrollscrollhistorygrungemessagepapyrusparchment-631522164174pllyg.png')",    
+      }}
     >
       <Grid2
         container
@@ -33,6 +36,7 @@ const Grid = ({ data, onCellClick }) => {
         sx={{
           width: "fit-content",
         }}
+        
       >
         
         {data.map((row, rowIndex) => (
@@ -46,6 +50,7 @@ const Grid = ({ data, onCellClick }) => {
             sx={{
               width: "fit-content", 
             }}
+
           >
             {row.map((rgb, colIndex) => {
 
