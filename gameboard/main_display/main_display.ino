@@ -49,6 +49,7 @@ void getColours();
 void displayGrid();
 void pollStick();
 void moveMapView(int, int);
+void updateMap();
 
 void setup() {
   Serial.begin(9600);
@@ -60,6 +61,9 @@ void setup() {
 }
 
 void loop() {
+  if Serial.available() {
+    updateMap();
+  }
   displayGrid();
   pollStick();
 }
@@ -187,6 +191,40 @@ void updateColours() {
       colourMatrix.colours_inv[i][j][2] = !fullMap[yPos+i][xPos+NUMCOLS_NORM+j][2];
     }
   }
+}
+
+void updateMap() {
+  Serial.println("Ah, something new! Let me take a look...");
+
+  char receivedData[21*21*3+1];
+  
+  int bytesReceived = Serial.readBytesUntil('\n',receivedData, 21*21*3+1);
+
+  if ((bytesReceived != 21*21*3) ) {
+    Serial.println("Hmm... That doesn't look like a complete map! I'm afraid I don't deal in map fragments; you'd best double-check to make sure you've got the whole thing.");
+    Serial.flush();
+    drainSerial();
+    return;
+  } else {
+    for (int row = 0; row < 21; row++) {
+      for (int col = 0; col < 21; col++) {
+        fullMap[row][col][0] = (bool) receivedData[row*21*3+col*3] - 30;
+        fullMap[row][col][1] = (bool) receivedData[row*21*3+col*3+1] - 30;
+        fullMap[row][col][2] = (bool) receivedData[row*21*3+col*3+2] - 30;
+      }
+    }
+    Serial.println("Splendid, a new map! I'll work my magic to bring it to life.");
+    Serial.flush();
+    drainSerial();
+  }
+}
+
+void drainSerial() {
+  while (Serial.available() > 0) {
+    Serial.readBytes((char*) NULL, 8);
+  }
+}
+
 }
 
 void TEST_setMap() {
