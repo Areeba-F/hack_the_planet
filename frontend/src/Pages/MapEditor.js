@@ -116,6 +116,14 @@ class MapEditor extends React.Component {
         }));
     }
 
+    displayString = () => {
+        const paddedGrid = this.padGrid(this.context.grid);
+        const listGrid = this.listToString(paddedGrid);
+        const stringGrid = listGrid.replace(/\[|\]|\,/g, "");
+        console.log("string", stringGrid);
+        return stringGrid;
+    }
+
     // send back to map navigation page
     NavToCreationPage = () => {
         this.setState({ navigateToCreation: true });
@@ -202,7 +210,7 @@ class MapEditor extends React.Component {
         <div className="editor">
             
                 {/* buttons for saving the grid and showing arduino code */}
-                <div className= 'button-div' style={{ textAlign: "center", marginTop: "20px" }}>
+                <div className= 'button-div' style={{ textAlign: "center", marginBottom: "20px" }}>
                     <button
                         onClick={this.saveGrid}
                         style={{
@@ -238,7 +246,26 @@ class MapEditor extends React.Component {
                         onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
                         onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
                     >
-                        Download CSV For Arduino
+                        Download CSV
+                    </button>
+
+                    <button
+                        onClick={this.outputArduino}
+                        style={{
+                            padding: "10px 20px",
+                            fontSize: "16px",
+                            margin: "10px",
+                            cursor: "pointer",
+                            backgroundColor: "rgb(0,0,0)",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "5px",
+                            transition: "border 0.3s ease, transform 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+                        onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                    >
+                        Binary Array for Arduino
                     </button>
 
                     <button
@@ -259,29 +286,9 @@ class MapEditor extends React.Component {
                     >
                         Back to Map Creation Page
                     </button>
-
-                    {this.state.showDataBox && (
-                        <div
-                            style={{
-                                marginTop: "20px",
-                                padding: "20px",
-                                backgroundColor: "rgb(232, 185, 237)",
-                                width: "300px",
-                                borderRadius: "5px",
-                                // TODO: fix this to be in a container, not absolute positions
-                                textAlign: "center",
-                                position: "absolute",        
-                                top: "70%",                  
-                                left: "70%",       
-                            }}
-                        >
-                            <h4>Output array</h4>
-                            <p>{this.listToString(this.context.grid)}</p>
-                        </div>
-                    )}
                     
                 </div>
-                <div className="subeditor" style={{ background: "rgb(0,0,0, 0.7)", paddingBottom:"5px", paddingTop:"2px",marginTop: "5px",}}>
+                <div className="subeditor" style={{borderRadius: '20px', boxShadow: "0 0 50px rgba(188, 175, 168, 0.95)", paddingBottom:"30px", paddingTop:"2px",marginTop: "5px",}}>
                 {/* select the colour for editing the map */}
                 <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
                 <div className= 'colour-selector' style={{borderBottom: "1px solid rgb(225, 179, 137)", display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
@@ -304,26 +311,46 @@ class MapEditor extends React.Component {
                         ></button>
                     ))}
                     </div>
-                </div>
+                
 
-            {/* Testing for correct grid layour
-            
-            <div>
-            {this.state.gridData.map((layer, layerIndex) => (
-                <div key={layerIndex}>
-                <h3>Layer {layerIndex + 1}</h3>
-                {layer.map((row, rowIndex) => (
-                    <div key={rowIndex}>
-                    Row {rowIndex + 1}: {row.join(', ')}
-                    </div>
-                ))}
-                </div>
-            ))}
-            </div> */}
-            <h3 style={{ textAlign: "center" }}>Map</h3>
+                {/* Testing for correct grid layour
+                
+                <div>
+                {this.state.gridData.map((layer, layerIndex) => (
+                    <div key={layerIndex}>
+                    <h3>Layer {layerIndex + 1}</h3>
+                    {layer.map((row, rowIndex) => (
+                        <div key={rowIndex}>
+                        Row {rowIndex + 1}: {row.join(', ')}
+                        </div>
+                    ))}
+                        </div>
+                    ))}
+                    </div> */}
+                    <h3 style={{ textAlign: "center" }}>Map</h3>
 
-            {/* main grid element */}
-            <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
+                    {/* main grid element */}
+                    <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
+                    
+                    {this.state.showDataBox && (
+                        <div
+                            style={{
+                                marginTop: "20px",
+                                padding: "20px",
+                                color: "rgb(225, 179, 137)",
+                                borderRadius: "5px",     
+                                wordWrap: "break-word",
+                                border: "1px solid rgb(225, 179, 137)",
+                                margin: "20px"
+                                
+
+                            }}
+                        >
+                            <h4>Output array</h4>
+                            <p>{this.displayString()}</p>
+                        </div>
+                    )}
+                </div>
         </div>
     </div>
       
