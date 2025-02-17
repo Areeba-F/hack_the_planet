@@ -210,7 +210,7 @@ class MapEditor extends React.Component {
         <div className="editor">
             
                 {/* buttons for saving the grid and showing arduino code */}
-                <div className= 'button-div' style={{ textAlign: "center", marginTop: "20px" }}>
+                <div className= 'button-div' style={{ textAlign: "center", marginBottom: "20px" }}>
                     <button
                         onClick={this.saveGrid}
                         style={{
@@ -288,7 +288,7 @@ class MapEditor extends React.Component {
                     </button>
                     
                 </div>
-                <div className="subeditor" style={{ background: "rgb(0,0,0, 0.7)", paddingBottom:"5px", paddingTop:"2px",marginTop: "5px",}}>
+                <div className="subeditor" style={{borderRadius: '20px', boxShadow: "0 0 50px rgba(188, 175, 168, 0.95)", paddingBottom:"30px", paddingTop:"2px",marginTop: "5px",}}>
                 {/* select the colour for editing the map */}
                 <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
                 <div className= 'colour-selector' style={{borderBottom: "1px solid rgb(225, 179, 137)", display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
@@ -311,36 +311,38 @@ class MapEditor extends React.Component {
                         ></button>
                     ))}
                     </div>
-                </div>
+                
 
-            {/* Testing for correct grid layour
-            
-            <div>
-            {this.state.gridData.map((layer, layerIndex) => (
-                <div key={layerIndex}>
-                <h3>Layer {layerIndex + 1}</h3>
-                {layer.map((row, rowIndex) => (
-                    <div key={rowIndex}>
-                    Row {rowIndex + 1}: {row.join(', ')}
-                    </div>
-                ))}
-                </div>
-            ))}
-            </div> */}
-            <h3 style={{ textAlign: "center" }}>Map</h3>
+                {/* Testing for correct grid layour
+                
+                <div>
+                {this.state.gridData.map((layer, layerIndex) => (
+                    <div key={layerIndex}>
+                    <h3>Layer {layerIndex + 1}</h3>
+                    {layer.map((row, rowIndex) => (
+                        <div key={rowIndex}>
+                        Row {rowIndex + 1}: {row.join(', ')}
+                        </div>
+                    ))}
+                        </div>
+                    ))}
+                    </div> */}
+                    <h3 style={{ textAlign: "center" }}>Map</h3>
 
-            {/* main grid element */}
-            <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
-
-            {this.state.showDataBox && (
+                    {/* main grid element */}
+                    <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
+                    
+                    {this.state.showDataBox && (
                         <div
                             style={{
                                 marginTop: "20px",
                                 padding: "20px",
-                                color: "rgb(37, 22, 9)",
-                                backgroundColor: "rgb(225, 179, 137)",
+                                color: "rgb(225, 179, 137)",
                                 borderRadius: "5px",     
                                 wordWrap: "break-word",
+                                border: "1px solid rgb(225, 179, 137)",
+                                margin: "20px"
+                                
 
                             }}
                         >
@@ -348,6 +350,7 @@ class MapEditor extends React.Component {
                             <p>{this.displayString()}</p>
                         </div>
                     )}
+                </div>
         </div>
     </div>
       
