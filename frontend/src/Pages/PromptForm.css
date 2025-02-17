@@ -1,0 +1,124 @@
+/* Dark Fantasy Tavern-Themed CSS */
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=IM+Fell+English+SC&display=swap');
+
+body {
+    background: url('https://wallpapers.com/images/high/dark-wood-background-1920-x-1080-fdgsgnlkv54fq7b2.webp') no-repeat center center fixed; 
+    background-size: cover;
+    color: #d4af37;
+    font-family: 'IM Fell English SC', serif;
+}
+
+#prompt-form {
+    /* background: url('https://wallpapers.com/images/featured-full/wood-texture-background-58jbszv2ejsai2o6.jpg') no-repeat center center; */
+    background-size: cover;
+    box-shadow: 0 0 50px rgba(188, 175, 168, 0.95);
+    font-family: 'Pirata One', cursive;
+    color: #e4c590;
+    border-radius: 20px;
+    /* text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9); */
+    width: 80%;
+    float: right;
+    margin: 20px;
+}
+
+
+#info-side {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 200px;
+    margin: 20px;
+}
+
+
+#info-text {
+    display: flex;  /* Enables side-by-side layout */
+    justify-content: space-between;  /* Ensures both sections are properly spaced */
+    align-items: flex-start;  /* Aligns content at the top */
+    width: 100vw; /* Ensures full screen width */
+}
+
+
+
+label {
+    
+    font-size: 1.7rem;
+    color: rgb(209, 166, 127);
+    text-shadow: 6px solid rgb(0, 0, 0);
+    /* text-shadow: 3px 3px 6px rgba(0, 0, 0, 1); */
+    letter-spacing: 1px;
+    text-transform: uppercase;
+
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+.size-input {
+    
+    border: 4px solid #4a1f1f;
+    background: #d6bea5;
+    padding: 10px;
+    width: 100px;
+    border-radius: 8px;
+    font-size: 3rem;
+    text-align: center;
+    color: #35211d;
+    border-bottom: 1px solid #b89573;
+}
+
+button {
+
+    background: #250f05;
+    padding: 16px 32px;
+    font-size: 2rem;
+    font-family: initial;
+    color: #f1c3b3;
+    cursor: pointer;
+    border-radius: 14px;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.7);
+}
+
+button:hover {
+    background: linear-gradient(to bottom, #683a19, #331b09);
+    
+    box-shadow: 0 0 30px rgba(255, 165, 0, 1);
+    transform: scale(1.1);
+}
+
+/* Input Fields */
+input, textarea {
+    
+    border: 4px solid #a67c52;
+    background: rgba(223, 194, 163, 0.95);
+    
+    padding: 16px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    color: #392217;
+    font-family: 'IM Fell English SC', serif;
+}
+
+/* Grid Styling */
+.MuiGrid-root {
+    border-radius: 14px;
+    padding: 18px;
+
+}
+
+
+/* Terrain Input Styling */
+#terrain-input {
+    border: 4px solid #5a3e36;
+    padding: 14px;
+    margin: 10px;
+    border-radius: 10px;
+    font-family: 'IM Fell English SC', serif;
+    background: rgba(255, 255, 255, 0.95);
+    color: #e4c590;
+    /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); */
+    
+}
+

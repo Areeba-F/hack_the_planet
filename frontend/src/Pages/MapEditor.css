@@ -1,0 +1,30 @@
+.saved-grids {
+  float: left;
+  margin: 20px;
+  width: 10vw;
+  height: 700px;
+  font-size: 1.2vw;
+  
+  color: rgb(225, 179, 137);
+  border-right: 2px solid rgb(225, 179, 137);
+}
+
+.saved-grids h4 {
+  float: left;
+  margin: 10px;
+  color: rgb(225, 179, 137);
+  font-size: 2vw;
+}
+
+
+.editor {
+  float: right;
+  margin: 20px;
+  width: 80%;
+}
+
+
+h3 {
+  font-size: 2rem;
+  color: rgb(225, 179, 137);
+}
