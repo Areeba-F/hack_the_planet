@@ -1,6 +1,7 @@
+# Automatic Battlemap Board/Generator (hack-the-planet)
+
 ## Inspiration
 Everyone in our group enjoys TTRPGs (tabletop roleplaying games), the most famous of which is Dungeons & Dragons. TTRPGs tend to involve a lot of labour on the part of the gamemaster (the person telling the story and running the game) in creating and drawing combat maps (grids on which the player characters and their enemies can be placed and moved around on the table). We wanted to build something that helped us spend less time designing/drawing combat maps and more time playing the game.
-# Automatic Battlemap Board/Generator (hack-the-planet)
 
 ## What it does
 There are 4 main components:
