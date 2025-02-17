@@ -320,7 +320,7 @@ class MapEditor extends React.Component {
                 </div>
             ))}
             </div> */}
-            <h2 style={{ textAlign: "center" }}>Map</h3>
+            <h3 style={{ textAlign: "center" }}>Map</h3>
 
             {/* main grid element */}
             <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
