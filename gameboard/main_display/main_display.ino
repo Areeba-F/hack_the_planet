@@ -57,7 +57,6 @@ void setup() {
   Serial.begin(9600);
 
   pinSetup();
-  TEST_setMap();
   updateColours();
   
 }
@@ -126,40 +125,7 @@ void displayGrid() {
 }
 
 
-void pinSetup() {
-  // set up pins
-  for (int i = 0; i < NUMROWS; i++) {
-    pinMode(commonPins_norm[i], OUTPUT);
-    digitalWrite(commonPins_norm[i], HIGH);
-    pinMode(commonPins_inv[i], OUTPUT);
-    digitalWrite(commonPins_inv[i], LOW);
-  }
-  
-  for (int i = 0; i < NUMCOLS_NORM; i++) {
-    pinMode(ledPins_norm[i][0], OUTPUT);
-    pinMode(ledPins_norm[i][1], OUTPUT);
-    pinMode(ledPins_norm[i][2], OUTPUT);
-    digitalWrite(ledPins_norm[i][0], LOW);
-    digitalWrite(ledPins_norm[i][1], LOW);
-    digitalWrite(ledPins_norm[i][2], LOW);
-  }
 
-  for (int i = 0; i < NUMCOLS_INV; i++) {
-    pinMode(ledPins_inv[i][0], OUTPUT);
-    pinMode(ledPins_inv[i][1], OUTPUT);
-    pinMode(ledPins_inv[i][2], OUTPUT);
-    digitalWrite(ledPins_inv[i][0], HIGH);
-    digitalWrite(ledPins_inv[i][1], HIGH);
-    digitalWrite(ledPins_inv[i][2], HIGH);
-  }
-
-  pinMode(stick1PwrPin, OUTPUT);
-  digitalWrite(stick1PwrPin, HIGH);
-  pinMode(stick2PwrPin, OUTPUT);
-  digitalWrite(stick2PwrPin, HIGH);
-  pinMode(stickXPin, INPUT);
-  pinMode(stickYPin, INPUT);
-}
 
 void moveMapView(int xMovement, int yMovement) {
   xPos += xMovement;
@@ -219,6 +185,8 @@ void updateMap() {
     Serial.flush();
     drainSerial();
     updateColours();
+    xPos = 7;
+    yPos = 7;
   }
 }
 
@@ -228,9 +196,43 @@ void drainSerial() {
   }
 }
 
+void pinSetup() {
+  // set up pins
+  for (int i = 0; i < NUMROWS; i++) {
+    pinMode(commonPins_norm[i], OUTPUT);
+    digitalWrite(commonPins_norm[i], HIGH);
+    pinMode(commonPins_inv[i], OUTPUT);
+    digitalWrite(commonPins_inv[i], LOW);
+  }
+  
+  for (int i = 0; i < NUMCOLS_NORM; i++) {
+    pinMode(ledPins_norm[i][0], OUTPUT);
+    pinMode(ledPins_norm[i][1], OUTPUT);
+    pinMode(ledPins_norm[i][2], OUTPUT);
+    digitalWrite(ledPins_norm[i][0], LOW);
+    digitalWrite(ledPins_norm[i][1], LOW);
+    digitalWrite(ledPins_norm[i][2], LOW);
+  }
+
+  for (int i = 0; i < NUMCOLS_INV; i++) {
+    pinMode(ledPins_inv[i][0], OUTPUT);
+    pinMode(ledPins_inv[i][1], OUTPUT);
+    pinMode(ledPins_inv[i][2], OUTPUT);
+    digitalWrite(ledPins_inv[i][0], HIGH);
+    digitalWrite(ledPins_inv[i][1], HIGH);
+    digitalWrite(ledPins_inv[i][2], HIGH);
+  }
+
+  pinMode(stick1PwrPin, OUTPUT);
+  digitalWrite(stick1PwrPin, HIGH);
+  pinMode(stick2PwrPin, OUTPUT);
+  digitalWrite(stick2PwrPin, HIGH);
+  pinMode(stickXPin, INPUT);
+  pinMode(stickYPin, INPUT);
+}
 
 void TEST_setMap() {
-  int colours[3][3] = {{0,0,0},{0,0,0},{0,0,0}};
+  int colours[3][3] = {{1,1,1},{1,1,1},{1,1,1}};
   
   for (int i = 0; i < 21*21; i++) {
     fullMap[(int) floor(i/21)][i%21][0] = colours[i%3][0];
