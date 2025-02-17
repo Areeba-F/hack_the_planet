@@ -18,11 +18,11 @@ struct {
 } colourMatrix;
 
 //pin assignments
-const int commonPins_norm[NUMROWS] = {53,52,51,50,49,48,47};
-const int ledPins_norm[NUMCOLS_NORM][3] = {{2,3,4},{4,5,6}};
+const int commonPins_norm[NUMROWS] = {42,40,38,36,30,34,32};
+const int ledPins_norm[NUMCOLS_NORM][3] = {{47,44,45},{2,3,4},{5,6,7},{8,9,10},{11,12,13}};
 
-const int commonPins_inv[NUMROWS] = {46,45,44,43,42,41,40};
-const int ledPins_inv[NUMCOLS_INV][3] = {{8,9,10}};
+const int commonPins_inv[NUMROWS] = {43,41,39,31,33,35,37};
+const int ledPins_inv[NUMCOLS_INV][3] = {{A0,A1,A2},{A8,A9,A10}};
 
 void pinSetup();
 void getColours();
@@ -94,18 +94,25 @@ void pinSetup() {
 }
 
 void getColours() {
-  int colourArray[7][7][3] = {{LED_R,LED_G,LED_B,LED_C,LED_M,LED_Y,LED_W},{LED_G,LED_B,LED_C,LED_M,LED_Y,LED_W,LED_R},{LED_B,LED_C,LED_M,LED_Y,LED_W,LED_R,LED_G},{LED_C,LED_M,LED_Y,LED_W,LED_R,LED_G,LED_B},{LED_M,LED_Y,LED_W,LED_R,LED_G,LED_B,LED_C},{LED_Y,LED_W,LED_R,LED_G,LED_B,LED_C,LED_M},{LED_W,LED_X,LED_G,LED_X,LED_C,LED_X,LED_Y}};
-
+  //int colourArray[7][7][3] = {{LED_R,LED_G,LED_B,LED_C,LED_M,LED_Y,LED_W},{LED_G,LED_B,LED_C,LED_M,LED_Y,LED_W,LED_R},{LED_B,LED_C,LED_M,LED_Y,LED_W,LED_R,LED_G},{LED_C,LED_M,LED_Y,LED_W,LED_R,LED_G,LED_B},{LED_M,LED_Y,LED_W,LED_R,LED_G,LED_B,LED_C},{LED_Y,LED_W,LED_R,LED_G,LED_B,LED_C,LED_M},{LED_W,LED_X,LED_G,LED_X,LED_C,LED_X,LED_Y}};
+  
+  
   for (int i = 0; i < NUMROWS; i++) {
     for (int j = 0; j < NUMCOLS_NORM; j++) {
-      colourMatrix.colours_norm[i][j][0] = colourArray[i][j][0];
-      colourMatrix.colours_norm[i][j][1] = colourArray[i][j][1];
-      colourMatrix.colours_norm[i][j][2] = colourArray[i][j][2];
+//      colourMatrix.colours_norm[i][j][0] = colourArray[i][j][0];
+//      colourMatrix.colours_norm[i][j][1] = colourArray[i][j][1];
+//      colourMatrix.colours_norm[i][j][2] = colourArray[i][j][2];
+      colourMatrix.colours_norm[i][j][0] = 0;
+      colourMatrix.colours_norm[i][j][1] = 0;
+      colourMatrix.colours_norm[i][j][2] = 1;
     }
     for (int j = 0; j < NUMCOLS_INV; j++) {
-      colourMatrix.colours_inv[i][j][0] = (int) !((bool) colourArray[i][NUMCOLS_NORM+j][0]);
-      colourMatrix.colours_inv[i][j][1] = (int) !((bool) colourArray[i][NUMCOLS_NORM+j][1]);
-      colourMatrix.colours_inv[i][j][2] = (int) !((bool) colourArray[i][NUMCOLS_NORM+j][2]);
+//      colourMatrix.colours_inv[i][j][0] = (int) !((bool) colourArray[i][NUMCOLS_NORM+j][0]);
+//      colourMatrix.colours_inv[i][j][1] = (int) !((bool) colourArray[i][NUMCOLS_NORM+j][1]);
+//      colourMatrix.colours_inv[i][j][2] = (int) !((bool) colourArray[i][NUMCOLS_NORM+j][2]);
+      colourMatrix.colours_inv[i][j][0] = 1;
+      colourMatrix.colours_inv[i][j][1] = 1;
+      colourMatrix.colours_inv[i][j][2] = 0;
     }
   }
 }
