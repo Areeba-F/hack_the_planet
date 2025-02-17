@@ -76,6 +76,10 @@ class PromptForm extends React.Component {
     return stringValue.replace(/\D/, "");
   };
 
+  NavToEditorPage = () => {
+    this.setState({ navigateToEditor: true });
+  }
+
   render() {
     // navigate to editor page
     if (this.state.navigateToEditor) {
@@ -169,6 +173,25 @@ class PromptForm extends React.Component {
               >
                   Generate Map
               </button>
+
+              <button
+                    onClick={this.NavToEditorPage}
+                    style={{
+                        padding: "10px 20px",
+                        fontSize: "16px",
+                        margin: "10px",
+                        cursor: "pointer",
+                        backgroundColor: "rgb(0,0,0)",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        transition: "border 0.3s ease, transform 0.2s ease",
+                    }}
+                    onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+                    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                >
+                    Skip To Map Editor Page
+                </button>
 
             </Grid>
 
