@@ -5,6 +5,8 @@ import Item from '@mui/material/Grid';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
+import woodSign from './Components/wood-sign.png';
+
 
 class TerrainInput extends React.Component {
   handleChange = (value) => {
@@ -18,8 +20,10 @@ class TerrainInput extends React.Component {
 
     return(
         <>
-        <Grid item xs={2}>
-            <label for={name}>{colour}</label>
+        <Grid item xs={2} 
+          >
+            <label  style = {{textAlign: "center",}}
+                    for={name}>{colour}</label>
         </Grid>
         <Grid item xs={4}>
             <TextField

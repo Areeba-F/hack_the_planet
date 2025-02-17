@@ -119,6 +119,45 @@ class MapEditor extends React.Component {
         this.setState({ navigateToCreation: true });
     }
 
+    listToCSV = (paddedGrid) => {
+        const rows = paddedGrid;
+        const csvContent = rows.map(row => row.join(',')).join('\n');
+        return csvContent;
+    };
+
+    downloadCSV = (gridData) => {
+        const paddedGrid = this.padGrid(this.context.grid);
+        const csvData = this.listToCSV(paddedGrid);
+        const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'output.csv';
+        link.click();
+    };
+
+    padGrid = (grid) => {
+        let newGrid = [];
+
+        // Create a new 21x21x3 grid full of zeros
+        for (let i = 0; i < 21; i++) {
+            newGrid[i] = [];
+            for (let j = 0; j < 21; j++) {
+                newGrid[i][j] = [0, 0, 0]; 
+            }
+        }
+
+        let startX = Math.floor((21 - grid.length) / 2); 
+        let startY = Math.floor((21 - grid.length) / 2); 
+
+        // populate it with the old grid IN THE MIDDLE
+        for (let i = 0; i < grid.length; i++) {
+            for (let j = 0; j < grid.length; j++) {
+                newGrid[startX + i][startY + j] = grid[i][j];
+            }
+        }
+        return newGrid;
+    };
+
   render() {
     console.log('MapEditor rerendered with context:',  this.context);
 
@@ -218,7 +257,7 @@ class MapEditor extends React.Component {
         </button>
         
         <button
-            onClick={this.outputArduino}
+            onClick={this.downloadCSV}
             style={{
                 padding: "10px 20px",
                 fontSize: "16px",
@@ -233,7 +272,7 @@ class MapEditor extends React.Component {
             onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
             onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
         >
-            Output to Arduino
+            Download CSV For Arduino
         </button>
 
         <button
