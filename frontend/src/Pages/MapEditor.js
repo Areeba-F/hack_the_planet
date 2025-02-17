@@ -246,7 +246,7 @@ class MapEditor extends React.Component {
                         onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
                         onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
                     >
-                        Download CSV For Arduino
+                        Download CSV
                     </button>
 
                     <button
@@ -265,7 +265,7 @@ class MapEditor extends React.Component {
                         onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
                         onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
                     >
-                        Display Binary Array
+                        Binary Array for Arduino
                     </button>
 
                     <button

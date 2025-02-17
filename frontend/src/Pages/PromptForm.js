@@ -151,10 +151,25 @@ class PromptForm extends React.Component {
             </div>
 
             <Grid item xs={12}>
-              <Button
-                type='submit'>
+              <button
+                  type='submit'
+                  style={{
+                      padding: "10px 20px",
+                      fontSize: "16px",
+                      margin: "10px",
+                      cursor: "pointer",
+                      backgroundColor: "rgb(0,0,0)",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      transition: "border 0.3s ease, transform 0.2s ease",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+                  onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+              >
                   Generate Map
-              </Button>
+              </button>
+
             </Grid>
 
           </form>
