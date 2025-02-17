@@ -92,10 +92,10 @@ void pollStick() {
   if (yLock == 0) {
     if (stickY > STICK_Y_HIGH) {
       yLock = 1;
-      moveMapView(0, 1);
+      moveMapView(0, -1);
     } else if (stickY < STICK_Y_LOW) {
       yLock = 1;
-      moveMapView(0, -1);
+      moveMapView(0, 1);
     }
   }
 
