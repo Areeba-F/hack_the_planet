@@ -1,3 +1,5 @@
+#include <EEPROM.h>
+
 // define colours for easy reference
 #define LED_R {1,0,0}
 #define LED_G {0,1,0}
@@ -45,18 +47,18 @@ const int stick1PwrPin = 53;
 const int stick2PwrPin = 52;
 
 void pinSetup();
-void getColours();
+void updateColours();
 void displayGrid();
 void pollStick();
 void moveMapView(int, int);
 void updateMap();
-
-void TEST_setMap();
+void readMapFromMem();
 
 void setup() {
   Serial.begin(9600);
 
   pinSetup();
+  readMapFromMem();
   updateColours();
   
 }
@@ -179,6 +181,9 @@ void updateMap() {
         fullMap[row][col][0] = (bool) (receivedData[row*21*3+col*3] - 48);
         fullMap[row][col][1] = (bool) (receivedData[row*21*3+col*3+1] - 48);
         fullMap[row][col][2] = (bool) (receivedData[row*21*3+col*3+2] - 48);
+        EEPROM.put(row*21*3+col*3, (bool) (receivedData[row*21*3+col*3] - 48));
+        EEPROM.put(row*21*3+col*3+1, (bool) (receivedData[row*21*3+col*3+1] - 48));
+        EEPROM.put(row*21*3+col*3+2, (bool) (receivedData[row*21*3+col*3+2] - 48));
       }
     }
     Serial.println("Splendid, a new map! I'll work my magic to bring it to life.");
@@ -231,13 +236,12 @@ void pinSetup() {
   pinMode(stickYPin, INPUT);
 }
 
-void TEST_setMap() {
-  int colours[3][3] = {{1,1,1},{1,1,1},{1,1,1}};
-  
-  for (int i = 0; i < 21*21; i++) {
-    fullMap[(int) floor(i/21)][i%21][0] = colours[i%3][0];
-    fullMap[(int) floor(i/21)][i%21][1] = colours[i%3][1];
-    fullMap[(int) floor(i/21)][i%21][2] = colours[i%3][2];
+void readMapFromMem() {
+  for (int row = 0; row < 21; row++) {
+    for (int col = 0; col < 21; col++) {
+      fullMap[row][col][0] = (bool) EEPROM.read(row*21*3+col*3);
+      fullMap[row][col][1] = (bool) EEPROM.read(row*21*3+col*3+1);
+      fullMap[row][col][2] = (bool) EEPROM.read(row*21*3+col*3+2);
+    }
   }
-  fullMap[7][7][0] = 1;
 }
