@@ -116,6 +116,14 @@ class MapEditor extends React.Component {
         }));
     }
 
+    displayString = () => {
+        const paddedGrid = this.padGrid(this.context.grid);
+        const listGrid = this.listToString(paddedGrid);
+        const stringGrid = listGrid.replace(/\[|\]|\,/g, "");
+        console.log("string", stringGrid);
+        return stringGrid;
+    }
+
     // send back to map navigation page
     NavToCreationPage = () => {
         this.setState({ navigateToCreation: true });
@@ -242,6 +250,25 @@ class MapEditor extends React.Component {
                     </button>
 
                     <button
+                        onClick={this.outputArduino}
+                        style={{
+                            padding: "10px 20px",
+                            fontSize: "16px",
+                            margin: "10px",
+                            cursor: "pointer",
+                            backgroundColor: "rgb(0,0,0)",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "5px",
+                            transition: "border 0.3s ease, transform 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+                        onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                    >
+                        Display Binary Array
+                    </button>
+
+                    <button
                         onClick={this.NavToCreationPage}
                         style={{
                             padding: "10px 20px",
@@ -259,26 +286,6 @@ class MapEditor extends React.Component {
                     >
                         Back to Map Creation Page
                     </button>
-
-                    {this.state.showDataBox && (
-                        <div
-                            style={{
-                                marginTop: "20px",
-                                padding: "20px",
-                                backgroundColor: "rgb(232, 185, 237)",
-                                width: "300px",
-                                borderRadius: "5px",
-                                // TODO: fix this to be in a container, not absolute positions
-                                textAlign: "center",
-                                position: "absolute",        
-                                top: "70%",                  
-                                left: "70%",       
-                            }}
-                        >
-                            <h4>Output array</h4>
-                            <p>{this.listToString(this.context.grid)}</p>
-                        </div>
-                    )}
                     
                 </div>
                 <div className="subeditor" style={{ background: "rgb(0,0,0, 0.7)", paddingBottom:"5px", paddingTop:"2px",marginTop: "5px",}}>
@@ -324,6 +331,23 @@ class MapEditor extends React.Component {
 
             {/* main grid element */}
             <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
+
+            {this.state.showDataBox && (
+                        <div
+                            style={{
+                                marginTop: "20px",
+                                padding: "20px",
+                                color: "rgb(37, 22, 9)",
+                                backgroundColor: "rgb(225, 179, 137)",
+                                borderRadius: "5px",     
+                                wordWrap: "break-word",
+
+                            }}
+                        >
+                            <h4>Output array</h4>
+                            <p>{this.displayString()}</p>
+                        </div>
+                    )}
         </div>
     </div>
       
