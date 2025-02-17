@@ -5,7 +5,6 @@ import Item from '@mui/material/Grid';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
-import woodSign from './Components/wood-sign.png';
 
 
 class TerrainInput extends React.Component {
