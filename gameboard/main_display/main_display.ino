@@ -51,6 +51,8 @@ void pollStick();
 void moveMapView(int, int);
 void updateMap();
 
+void TEST_setMap();
+
 void setup() {
   Serial.begin(9600);
 
@@ -61,7 +63,7 @@ void setup() {
 }
 
 void loop() {
-  if Serial.available() {
+  if (Serial.available() > 0) {
     updateMap();
   }
   displayGrid();
@@ -208,14 +210,15 @@ void updateMap() {
   } else {
     for (int row = 0; row < 21; row++) {
       for (int col = 0; col < 21; col++) {
-        fullMap[row][col][0] = (bool) receivedData[row*21*3+col*3] - 30;
-        fullMap[row][col][1] = (bool) receivedData[row*21*3+col*3+1] - 30;
-        fullMap[row][col][2] = (bool) receivedData[row*21*3+col*3+2] - 30;
+        fullMap[row][col][0] = (bool) (receivedData[row*21*3+col*3] - 48);
+        fullMap[row][col][1] = (bool) (receivedData[row*21*3+col*3+1] - 48);
+        fullMap[row][col][2] = (bool) (receivedData[row*21*3+col*3+2] - 48);
       }
     }
     Serial.println("Splendid, a new map! I'll work my magic to bring it to life.");
     Serial.flush();
     drainSerial();
+    updateColours();
   }
 }
 
@@ -225,14 +228,14 @@ void drainSerial() {
   }
 }
 
-}
 
 void TEST_setMap() {
-  int colours[3][3] = {{1,0,0},{0,1,0},{0,0,1}};
+  int colours[3][3] = {{0,0,0},{0,0,0},{0,0,0}};
   
   for (int i = 0; i < 21*21; i++) {
     fullMap[(int) floor(i/21)][i%21][0] = colours[i%3][0];
     fullMap[(int) floor(i/21)][i%21][1] = colours[i%3][1];
     fullMap[(int) floor(i/21)][i%21][2] = colours[i%3][2];
   }
+  fullMap[7][7][0] = 1;
 }
