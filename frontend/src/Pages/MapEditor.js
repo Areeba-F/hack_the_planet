@@ -191,7 +191,7 @@ class MapEditor extends React.Component {
                             cursor: "pointer",                      
                         }}
                         onMouseEnter={(e) => (e.target.style.color = "rgb(199, 87, 199)")}
-                        onMouseLeave={(e) => (e.target.style.color = "rgb(223, 179, 93)")}
+                        onMouseLeave={(e) => (e.target.style.color = "rgb(225, 179, 137)")}
                         >
                         {`Grid ${index + 1}`}
                     </li>
@@ -284,7 +284,7 @@ class MapEditor extends React.Component {
                 <div className="subeditor" style={{ background: "rgb(0,0,0, 0.7)", paddingBottom:"5px", paddingTop:"2px",marginTop: "5px",}}>
                 {/* select the colour for editing the map */}
                 <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
-                <div className= 'colour-selector' style={{borderBottom: "1px solid rgb(223, 179, 93)", display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
+                <div className= 'colour-selector' style={{borderBottom: "1px solid rgb(225, 179, 137)", display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
                     {colorOptions.map(({ color, name }) => (
                         <button
                             key={name}
@@ -295,7 +295,7 @@ class MapEditor extends React.Component {
                                 width: "0.5vw",
                                 height: "0.5vh",
                                 border: "1px solid #333",
-                                backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255})`,
+                                backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255}, 0.8)`,
                                 transition: "border 0.3s ease, transform 0.2s ease",
                                 cursor: "pointer",               
                             }}

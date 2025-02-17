@@ -66,7 +66,7 @@ const Grid = ({ data, onCellClick }) => {
                     style={{
 
                       // get colour from [rbg[0], rbg[1], rbg[2]]
-                      backgroundColor: `rgb(${r}, ${g}, ${b})`,
+                      backgroundColor: `rgb(${r}, ${g}, ${b}, 0.8)`,
                       width: `${w}vw`,
                       height: `${w}vw`,
                       borderRadius: `${radius}px`,
