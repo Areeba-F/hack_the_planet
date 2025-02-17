@@ -10,6 +10,7 @@ import { Navigate } from 'react-router-dom';
 import styles from "./MapEditor.css"
 
 
+
 class MapEditor extends React.Component {
 
     static contextType = MapContext;
@@ -197,127 +198,133 @@ class MapEditor extends React.Component {
                 ))}
             </ul>
         </div>
-
-        {/* buttons for saving the grid and showing arduino code */}
-        <div className= 'button-div' style={{ textAlign: "center", marginTop: "20px" }}>
-            <button
-                onClick={this.saveGrid}
-                style={{
-                    padding: "10px 20px",
-                    margin: "10px",
-                    fontSize: "16px",
-                    cursor: "pointer",
-                    backgroundColor: "rgb(0,0,0)",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    transition: "border 0.3s ease, transform 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
-                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-            >
-                Save Grid
-            </button>
+        
+        <div className="editor">
             
-            <button
-                onClick={this.downloadCSV}
-                style={{
-                    padding: "10px 20px",
-                    fontSize: "16px",
-                    margin: "10px",
-                    cursor: "pointer",
-                    backgroundColor: "rgb(0,0,0)",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    transition: "border 0.3s ease, transform 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
-                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-            >
-                Download CSV For Arduino
-            </button>
+                {/* buttons for saving the grid and showing arduino code */}
+                <div className= 'button-div' style={{ textAlign: "center", marginTop: "20px" }}>
+                    <button
+                        onClick={this.saveGrid}
+                        style={{
+                            padding: "10px 20px",
+                            margin: "10px",
+                            fontSize: "16px",
+                            cursor: "pointer",
+                            backgroundColor: "rgb(0,0,0)",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "5px",
+                            transition: "border 0.3s ease, transform 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+                        onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                    >
+                        Save Grid
+                    </button>
+                    
+                    <button
+                        onClick={this.downloadCSV}
+                        style={{
+                            padding: "10px 20px",
+                            fontSize: "16px",
+                            margin: "10px",
+                            cursor: "pointer",
+                            backgroundColor: "rgb(0,0,0)",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "5px",
+                            transition: "border 0.3s ease, transform 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+                        onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                    >
+                        Download CSV For Arduino
+                    </button>
 
-            <button
-                onClick={this.NavToCreationPage}
-                style={{
-                    padding: "10px 20px",
-                    fontSize: "16px",
-                    margin: "10px",
-                    cursor: "pointer",
-                    backgroundColor: "rgb(0,0,0)",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "5px",
-                    transition: "border 0.3s ease, transform 0.2s ease",
-                }}
-                onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
-                onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-            >
-                Back to Map Creation Page
-            </button>
+                    <button
+                        onClick={this.NavToCreationPage}
+                        style={{
+                            padding: "10px 20px",
+                            fontSize: "16px",
+                            margin: "10px",
+                            cursor: "pointer",
+                            backgroundColor: "rgb(0,0,0)",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "5px",
+                            transition: "border 0.3s ease, transform 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")} 
+                        onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                    >
+                        Back to Map Creation Page
+                    </button>
 
-            {this.state.showDataBox && (
-                <div
-                    style={{
-                        marginTop: "20px",
-                        padding: "20px",
-                        backgroundColor: "rgb(232, 185, 237)",
-                        width: "300px",
-                        borderRadius: "5px",
-                        // TODO: fix this to be in a container, not absolute positions
-                        textAlign: "center",
-                        position: "absolute",        
-                        top: "70%",                  
-                        left: "70%",       
-                    }}
-                >
-                    <h4>Output array</h4>
-                    <p>{this.listToString(this.context.grid)}</p>
+                    {this.state.showDataBox && (
+                        <div
+                            style={{
+                                marginTop: "20px",
+                                padding: "20px",
+                                backgroundColor: "rgb(232, 185, 237)",
+                                width: "300px",
+                                borderRadius: "5px",
+                                // TODO: fix this to be in a container, not absolute positions
+                                textAlign: "center",
+                                position: "absolute",        
+                                top: "70%",                  
+                                left: "70%",       
+                            }}
+                        >
+                            <h4>Output array</h4>
+                            <p>{this.listToString(this.context.grid)}</p>
+                        </div>
+                    )}
+                    
                 </div>
-            )}
+                <div className="subeditor" style={{ background: "rgb(0,0,0, 0.7)", paddingBottom:"5px", paddingTop:"2px",marginTop: "5px",}}>
+                {/* select the colour for editing the map */}
+                <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
+                <div className= 'colour-selector' style={{borderBottom: "1px solid rgb(223, 179, 93)", display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
+                    {colorOptions.map(({ color, name }) => (
+                        <button
+                            key={name}
+                            onClick={() => this.handleColorSelect(color)}
+                            style={{
+                                
+                                marginBottom: "20px",
+                                width: "0.5vw",
+                                height: "0.5vh",
+                                border: "1px solid #333",
+                                backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255})`,
+                                transition: "border 0.3s ease, transform 0.2s ease",
+                                cursor: "pointer",               
+                            }}
+                            onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
+                            onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+                        ></button>
+                    ))}
+                    </div>
+                </div>
+
+            {/* Testing for correct grid layour
             
+            <div>
+            {this.state.gridData.map((layer, layerIndex) => (
+                <div key={layerIndex}>
+                <h3>Layer {layerIndex + 1}</h3>
+                {layer.map((row, rowIndex) => (
+                    <div key={rowIndex}>
+                    Row {rowIndex + 1}: {row.join(', ')}
+                    </div>
+                ))}
+                </div>
+            ))}
+            </div> */}
+            <h2 style={{ textAlign: "center" }}>Map</h3>
+
+            {/* main grid element */}
+            <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
         </div>
-        {/* select the colour for editing the map */}
-        <h3 style={{ textAlign: "center" }}>Select colour to edit map</h3>
-        <div className= 'colour-selector' style={{ display: "flex", gap: "10px", marginBottom: "10px", justifyContent: "center",}}>
-            {colorOptions.map(({ color, name }) => (
-                <button
-                    key={name}
-                    onClick={() => this.handleColorSelect(color)}
-                    style={{
-                        width: "40px",
-                        height: "25px",
-                        border: "1px solid #333",
-                        backgroundColor: `rgb(${color[0] * 255}, ${color[1] * 255}, ${color[2] * 255})`,
-                        transition: "border 0.3s ease, transform 0.2s ease",
-                        cursor: "pointer",                      
-                    }}
-                    onMouseEnter={(e) => (e.target.style.transform = "scale(1.1)")}
-                    onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
-                ></button>
-            ))}
-            </div>
-
-        {/* Testing for correct grid layour
-        
-        <div>
-        {this.state.gridData.map((layer, layerIndex) => (
-            <div key={layerIndex}>
-            <h3>Layer {layerIndex + 1}</h3>
-            {layer.map((row, rowIndex) => (
-                <div key={rowIndex}>
-                Row {rowIndex + 1}: {row.join(', ')}
-                </div>
-            ))}
-            </div>
-        ))}
-        </div> */}
-        <h3 style={{ textAlign: "center" }}>Map</h3>
-
-        {/* main grid element */}
-        <Grid className= "display-grid" data={this.context.grid} onCellClick={this.handleCellClick} />
-        
     </div>
       
       );

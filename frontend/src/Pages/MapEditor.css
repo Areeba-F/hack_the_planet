@@ -1,6 +1,9 @@
 .saved-grids {
   float: left;
   margin: 20px;
+  width: 10vw;
+  height: 700px;
+  font-size: 1.2vw;
   
   color: rgb(223, 179, 93);
   border-right: 2px solid rgb(223, 179, 93);
@@ -10,12 +13,16 @@
   float: left;
   margin: 10px;
   color: rgb(223, 179, 93);
-  font-size: 2rem;
+  font-size: 2vw;
 }
 
-.display-grid {
-  border-radius: 80px;
+
+.editor {
+  float: right;
+  margin: 20px;
+  width: 80%;
 }
+
 
 h3 {
   font-size: 2rem;
